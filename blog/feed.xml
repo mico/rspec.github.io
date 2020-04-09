@@ -1,0 +1,1414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>RSpec</title>
+  <subtitle>The Official RSpec Blog</subtitle>
+  <id>http://rspec.info/blog</id>
+  <link href="http://rspec.info/blog"/>
+  <link href="http://rspec.info/blog/feed.xml" rel="self"/>
+  <updated>2019-10-16T00:00:00Z</updated>
+  <author>
+    <name>The RSpec Core Team</name>
+  </author>
+  <entry>
+    <title>RSpec 3.9 has been released, and RSpec team changes.</title>
+    <link rel="alternate" href="http://rspec.info/blog/2019/10/rspec-3-9-has-been-released/"/>
+    <id>http://rspec.info/blog/2019/10/rspec-3-9-has-been-released/</id>
+    <published>2019-10-16T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Jon Rowe</name>
+    </author>
+    <content type="html">&lt;p&gt;RSpec 3.9 has just been released! As the RSpec project follows
+&lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt;, anyone already using RSpec 3
+should be able to upgrade to this version seemlessly, but if we have
+introduced a regression please let us know, and we'll get a patch
+release out to sort it out as soon as possible.&lt;/p&gt;
+
+&lt;p&gt;We're sad to announce that &lt;a href="https://github.com/samphippen"&gt;Penelope Phippen&lt;/a&gt; has
+retired from the project, leaving myself, &lt;a href="https://github.com/jonrowe"&gt;Jon Rowe&lt;/a&gt; as
+the sole lead maintainer going forward, but its not all bad news, we welcome our
+newest core team member &lt;a href="https://github.com/pirj`"&gt;Phil Pirozhkov&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Thank you Penelope for all your hard word over the years and welcome Phil!&lt;/p&gt;
+
+&lt;p&gt;This is the last release in which the RSpec gems, &lt;code&gt;rspec&lt;/code&gt;, &lt;code&gt;rspec-core&lt;/code&gt;,
+&lt;code&gt;rspec-expectations&lt;/code&gt; and &lt;code&gt;rspec-mocks&lt;/code&gt; will be in sync with &lt;code&gt;rspec-rails&lt;/code&gt;.
+We'll be launched &lt;code&gt;rspec-rails&lt;/code&gt; 4 soon which will be classed as an extension
+gem and not kept in sync version wise with the core gems, which will allow
+us to keep &lt;code&gt;rspec-rails&lt;/code&gt; in sync with Rails versions, more on that soon.&lt;/p&gt;
+
+&lt;p&gt;RSpec continues to receive contributions from all over the world, we had
+369 commits and 98 merged pull requests from 52 different contributors
+who helped make this release happen. Thank you all :)&lt;/p&gt;
+
+&lt;h2 id="notable-changes"&gt;Notable Changes&lt;/h2&gt;
+
+&lt;h3 id="core-improved-error-handling"&gt;Core: Improved error handling&lt;/h3&gt;
+
+&lt;p&gt;If RSpec encounters an error whilst loading support files, it will now
+skip loading specs files removing later confusing errors due to the earlier
+error(s). Additionally when available &lt;code&gt;did_you_mean&lt;/code&gt; suggestions will be
+shown for any &lt;code&gt;LoadError&lt;/code&gt;s that are encountered.&lt;/p&gt;
+
+&lt;h3 id="core-command-line-interface-improvement---example-matches"&gt;Core: Command Line Interface improvement, &lt;code&gt;--example-matches&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;With the release of 3.9 you can now use &lt;code&gt;--example-matches&lt;/code&gt; to filter your
+examples via a regular expression, useful if you only know part of an example
+name or have specs with a common theme across a number of different files.&lt;/p&gt;
+
+&lt;h3 id="core-new-formatter"&gt;Core: New Formatter&lt;/h3&gt;
+
+&lt;p&gt;In 3.9 you will find a new built in formatter option, the failure list formatter,
+which can be used via the command line as &lt;code&gt;--format f&lt;/code&gt; or &lt;code&gt;--format failure_list&lt;/code&gt;,
+or via the &lt;code&gt;RSpec::Configuration#formatter&lt;/code&gt; method. This new formatter produces
+output in a more minimalist "quick fix" style output.&lt;/p&gt;
+
+&lt;h3 id="expectations-respondtonew"&gt;Expectations: respond_to(:new)&lt;/h3&gt;
+
+&lt;p&gt;The &lt;code&gt;respond_to&lt;/code&gt; matcher now special cases &lt;code&gt;:new&lt;/code&gt; and checks &lt;code&gt;:initialize&lt;/code&gt;
+if its a standard class method.&lt;/p&gt;
+
+&lt;h3 id="expectations-empty-diff-warning"&gt;Expectations: Empty diff warning&lt;/h3&gt;
+
+&lt;p&gt;Prior to 3.9 when you had matchers that failed but the items under test
+produced the same inspect output you'd get a confusing diff were both
+sides look the same, we now detect this scenario and issue a warning.&lt;/p&gt;
+
+&lt;h3 id="mocks-improved-thread-safety"&gt;Mocks: Improved thread safety&lt;/h3&gt;
+
+&lt;p&gt;A bonus for people running parralleised specs, 3.9 brings some improvements
+to our threaded behaviour by adding mutexes to avoid deadlocking errors.&lt;/p&gt;
+
+&lt;h3 id="rails-railshelperrb-improvements"&gt;Rails: &lt;code&gt;rails_helper.rb&lt;/code&gt; improvements&lt;/h3&gt;
+
+&lt;p&gt;A minor tweak in 3.9 brining the generated &lt;code&gt;rails_helper.rb&lt;/code&gt; inline
+with Ruby semantics and using &lt;code&gt;__dir__&lt;/code&gt; rather than &lt;code&gt;__FILE__&lt;/code&gt; on
+newer Rubies.&lt;/p&gt;
+
+&lt;h3 id="rails-new-email-matchers"&gt;Rails: New email matchers&lt;/h3&gt;
+
+&lt;p&gt;Add a new &lt;code&gt;have_enqueued_mail&lt;/code&gt; matcher for making it easier to assert
+on mailer specific active jobs.&lt;/p&gt;
+
+&lt;h3 id="rails-new-generators"&gt;Rails: New generators&lt;/h3&gt;
+
+&lt;p&gt;Version 3.9 brings a couple of new generator scaffolds, you can now
+generate system specs on Rails 5.1 and above, generate specs for generators
+and add routes when generating controller specs.&lt;/p&gt;
+
+&lt;h2 id="stats"&gt;Stats:&lt;/h2&gt;
+
+&lt;h3 id="combined"&gt;Combined:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 322&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 59&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;54 contributors&lt;/strong&gt;: Aaron Kromer, Alex Haynes, Alireza Bashiri, Andy Waite,
+Benoit Tigeot, Bobby McDonald, Chris, Christophe Bliard, ConSou, David Rodríguez,
+Douglas Lovell, Eito Katagiri, Emric, Fred Snyder, Giovanni Kock Bonetti, Grey
+Baker, Jack Wink, Jamie English, Joel Lubrano, Jon Rowe, Juanito Fatas, Keiji,
+Kevin, Kevin Kuchta, Kieran O'Grady, Kohei Sugi, Laura Paakkinen, Manuel
+Schnitzer, Matijs van Zuijlen, Michel Ocon, Myron Marston, Nazar Matus, Nick
+LaMuro, OKURA Masafumi, Olle Jonsson, Orien Madgwick, Patrick Boatner, Penelope
+Phippen, Pete Johns, Phil Pirozhkov, Philippe Hardardt, Rafe Rosen, Romain Tartière,
+Ryan Lue, Sam Joseph, Samuel Williams, Taichi Ishitani, Takumi Kaji,
+Thomas Walpole, Tom Grimley, Viktor Fonic, Yoshimi, aymeric-ledorze, 三上大河&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-core"&gt;rspec-core:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 92&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 13&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;22 contributors&lt;/strong&gt;: Alex Haynes, Andy Waite, Benoit Tigeot, Chris, Christophe
+Bliard, David Rodríguez, Jon Rowe, Juanito Fatas, Keiji, Matijs van Zuijlen,
+Myron Marston, Nick LaMuro, Olle Jonsson, Orien Madgwick, Pete Johns,
+Phil Pirozhkov, Philippe Hardardt, Romain Tartière, Sam Joseph, Samuel Williams,
+Viktor Fonic, Yoshimi&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations"&gt;rspec-expectations:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 60&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 7&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;15 contributors&lt;/strong&gt;: Benoit Tigeot, Eito Katagiri, Fred Snyder, Jack Wink,
+Jamie English, Jon Rowe, Juanito Fatas, Matijs van Zuijlen, Myron Marston,
+Nazar Matus, Olle Jonsson, Orien Madgwick, Pete Johns, Phil Pirozhkov,
+Taichi Ishitani&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks"&gt;rspec-mocks:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 38&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 2&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;10 contributors&lt;/strong&gt;: Alireza Bashiri, Benoit Tigeot, Jon Rowe, Juanito Fatas,
+Kevin, Matijs van Zuijlen, Myron Marston, Olle Jonsson, Orien Madgwick,
+Patrick Boatner&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails"&gt;rspec-rails:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 103&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 17&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;27 contributors&lt;/strong&gt;: Aaron Kromer, Benoit Tigeot, Bobby McDonald, ConSou,
+Douglas Lovell, Emric, Giovanni Kock Bonetti, Grey Baker, Joel Lubrano, Jon Rowe,
+Kevin Kuchta, Kieran O'Grady, Kohei Sugi, Laura Paakkinen, Manuel Schnitzer,
+Michel Ocon, Myron Marston, OKURA Masafumi, Olle Jonsson, Orien Madgwick,
+Penelope Phippen, Rafe Rosen, Ryan Lue, Takumi Kaji, Thomas Walpole, Tom Grimley,
+aymeric-ledorze&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support"&gt;rspec-support:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 29&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 20&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;4 contributors&lt;/strong&gt;: Benoit Tigeot, Jon Rowe, Myron Marston, 三上大河&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="docs"&gt;Docs&lt;/h2&gt;
+
+&lt;h3 id="api-docs"&gt;API Docs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.9/rspec-core/"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.9/rspec-expectations/"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.9/rspec-mocks/"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.9/rspec-rails/"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="cucumber-features"&gt;Cucumber Features&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-core"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-expectations"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-mocks"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-rails"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="release-notes"&gt;Release Notes&lt;/h2&gt;
+
+&lt;h3 id="rspec-core-390"&gt;rspec-core-3.9.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.8.2...v3.9.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:
+* Improve the handling of errors during loading support files, if a file
+  errors before loading specs, RSpec will now skip loading the specs.
+  (David Rodríguez, #2568)
+* Add support for –example-matches to run examples by regular expression.
+  (Sam Joseph, Matt Rider, @okothkongo1, #2586)
+* Add &lt;code&gt;did_you_mean&lt;/code&gt; suggestions for file names encountering a &lt;code&gt;LoadError&lt;/code&gt;
+  outside of examples. (@obromios, #2601)
+* Add a minimalist quick fix style formatter, only outputs failures as
+  &lt;code&gt;file:line:message&lt;/code&gt;. (Romain Tartière, #2614)
+* Convert string number values to integer when used for &lt;code&gt;RSpec::Configuration#fail_fast&lt;/code&gt;
+  (Viktor Fonic, #2634)
+* Issue warning when invalid values are used for &lt;code&gt;RSpec::Configuration#fail_fast&lt;/code&gt;
+  (Viktor Fonic, #2634)
+* Add support for running the Rake task in a clean environment.
+  (Jon Rowe, #2632)
+* Indent messages by there example group / example in the documentation formatter.
+  (Samuel Williams, #2649)&lt;/p&gt;
+
+&lt;h3 id="rspec-expectations-390"&gt;rspec-expectations-3.9.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.8.5...v3.9.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code&gt;respond_to&lt;/code&gt; matcher now uses the signature from &lt;code&gt;initialize&lt;/code&gt; to validate checks
+for &lt;code&gt;new&lt;/code&gt; (unless &lt;code&gt;new&lt;/code&gt; is non standard). (Jon Rowe, #1072)&lt;/li&gt;
+  &lt;li&gt;Generated descriptions for matchers now use &lt;code&gt;is expected to&lt;/code&gt; rather than &lt;code&gt;should&lt;/code&gt; in
+line with our preferred DSL. (Pete Johns, #1080, rspec/rspec-core#2572)&lt;/li&gt;
+  &lt;li&gt;Add the ability to re-raise expectation errors when matching
+with &lt;code&gt;match_when_negated&lt;/code&gt; blocks. (Jon Rowe, #1130)&lt;/li&gt;
+  &lt;li&gt;Add a warning when an empty diff is produce due to identical inspect output.
+(Benoit Tigeot, #1126)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks-390"&gt;rspec-mocks-3.9.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.8.2...v3.9.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve thread safety of message expectations by using Mutex to prevent
+deadlocking errors. (Ry Biesemeyer, #1236)&lt;/li&gt;
+  &lt;li&gt;Add the ability to use &lt;code&gt;time&lt;/code&gt; as an alias for &lt;code&gt;times&lt;/code&gt;. For example:
+&lt;code&gt;expect(Class).to receive(:method).exactly(1).time&lt;/code&gt;.
+(Pistos, Benoit Tigeot, #1271)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails-390"&gt;rspec-rails-3.9.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.8.2...v3.9.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use &lt;code&gt;__dir__&lt;/code&gt; instead of &lt;code&gt;__FILE__&lt;/code&gt; in generated &lt;code&gt;rails_helper.rb&lt;/code&gt; where
+supported. (OKURA Masafumi, #2048)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code&gt;have_enqueued&lt;/code&gt; matcher as a "super" matcher to the &lt;code&gt;ActiveJob&lt;/code&gt; matchers
+making it easier to match on &lt;code&gt;ActiveJob&lt;/code&gt; delivered emails. (Joel Lubrano, #2047)&lt;/li&gt;
+  &lt;li&gt;Add generator for system specs on Rails 5.1 and above. (Andrzej Sliwa, #1933)&lt;/li&gt;
+  &lt;li&gt;Add generator for generator specs. (@ConSou, #2085)&lt;/li&gt;
+  &lt;li&gt;Add option to generate routes when generating controller specs. (David Revelo, #2134)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Make the &lt;code&gt;ActiveJob&lt;/code&gt; matchers fail when multiple jobs are queued for negated
+matches. e.g. `expect { job; job; }.to_not have_enqueued_job.
+(Emric Istanful, #2069)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Jon Rowe and Sam Phippen are RSpec's new leads</title>
+    <link rel="alternate" href="http://rspec.info/blog/2018/09/jon-rowe-and-sam-phippen-are-rspecs-new-leads/"/>
+    <id>http://rspec.info/blog/2018/09/jon-rowe-and-sam-phippen-are-rspecs-new-leads/</id>
+    <published>2018-09-23T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Myron Marston</name>
+    </author>
+    <content type="html">&lt;p&gt;My &lt;a href="https://github.com/rspec/rspec-core/commit/cbd5a8a26885106e0483d189e9d39d80d58f7f77"&gt;first contribution to
+RSpec&lt;/a&gt;
+happened over 8 years ago, and I've &lt;a href="http://blog.davidchelimsky.net/blog/2012/11/28/myron-marston-and-andy-lindeman-are-rspecs-new-project-leads/"&gt;lead the project for nearly 6
+years&lt;/a&gt;.
+In that time, a lot has been accomplished:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We shipped a dozen major or minor feature releases (plus
+&lt;a href="https://rubygems.org/gems/rspec-core/versions"&gt;many&lt;/a&gt;,
+&lt;a href="https://rubygems.org/gems/rspec-expectations/versions"&gt;many&lt;/a&gt;
+&lt;a href="https://rubygems.org/gems/rspec-mocks/versions"&gt;patch&lt;/a&gt;
+&lt;a href="https://rubygems.org/gems/rspec-rails/versions"&gt;releases&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;We added some of RSpec's most popular features (like &lt;a href="/blog/2014/01/new-in-rspec-3-composable-matchers/"&gt;composable
+matchers&lt;/a&gt;,
+&lt;a href="https://rhnh.net/2013/12/10/new-in-rspec-3-verifying-doubles/"&gt;verifying doubles&lt;/a&gt;, and
+&lt;a href="/blog/2015/06/rspec-3-3-has-been-released/#core-bisect"&gt;&lt;code&gt;--bisect&lt;/code&gt;&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;I co-authored &lt;a href="https://pragprog.com/book/rspec3/effective-testing-with-rspec-3"&gt;a book about using RSpec
+effectively&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;RSpec became &lt;a href="https://rubygems.org/stats"&gt;the most popular Ruby gem&lt;/a&gt; with over 300 million downloads&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;During that time, my life has also changed significantly:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I changed employers from &lt;a href="https://moz.com/"&gt;Moz&lt;/a&gt; to &lt;a href="https://squareup.com/"&gt;Square&lt;/a&gt; last year&lt;/li&gt;
+  &lt;li&gt;I stopped using Ruby as my primary language about 3 years ago (at Moz we switched to
+&lt;a href="https://elixir-lang.org/"&gt;Elixir&lt;/a&gt; and my team at Square is using Java)&lt;/li&gt;
+  &lt;li&gt;I have 3 kids now (when I started working on RSpec I didn't have any!)&lt;/li&gt;
+  &lt;li&gt;I no longer have the kind of time I used to to work on open source&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As much as I have enjoyed working on RSpec for the better part of a decade, I
+rarely have the time anymore, and when I do have the time, I often don't enjoy it.
+I'm also no longer a regular user of RSpec.&lt;/p&gt;
+
+&lt;p&gt;In short, the time has come for me to take a step back from the project.
+Effective immediately, Jon Rowe and Sam Phippen are the new co-leads of
+RSpec. Both of them have been contributing to RSpec for years and I have
+every confidence they will lead the project well.&lt;/p&gt;
+
+&lt;p&gt;Please join me in thanking Jon and Sam for stepping forward to lead the
+project!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>RSpec 3.8 has been released!</title>
+    <link rel="alternate" href="http://rspec.info/blog/2018/08/rspec-3-8-has-been-released/"/>
+    <id>http://rspec.info/blog/2018/08/rspec-3-8-has-been-released/</id>
+    <published>2018-08-04T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Myron Marston and Jon Rowe</name>
+    </author>
+    <content type="html">&lt;p&gt;RSpec 3.8 has just been released! Given our commitment to
+&lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt;, this should be an easy
+upgrade for anyone already using RSpec 3, but if we did introduce
+any regressions, please let us know, and we'll get a patch release
+out with a fix ASAP.&lt;/p&gt;
+
+&lt;p&gt;We're also happy to announce that &lt;a href="https://github.com/benoittgt"&gt;Benoit Tigeot&lt;/a&gt;
+has joined the RSpec team since the last release. Welcome to the team, Benoit!
+We know you'll do great things :).&lt;/p&gt;
+
+&lt;p&gt;RSpec continues to be a community-driven project with contributors
+from all over the world. This release includes 369 commits and 98
+merged pull requests from 52 different contributors!&lt;/p&gt;
+
+&lt;p&gt;Thank you to everyone who helped make this release happen!&lt;/p&gt;
+
+&lt;h2 id="notable-changes"&gt;Notable Changes&lt;/h2&gt;
+
+&lt;h3 id="core-performance-of---bisect-has-been-significantly-improved"&gt;Core: Performance of –bisect has been significantly improved&lt;/h3&gt;
+
+&lt;p&gt;RSpec has supported a &lt;code&gt;--bisect&lt;/code&gt; feature since
+&lt;a href="/blog/2015/06/rspec-3-3-has-been-released/#core-bisect"&gt;RSpec 3.3&lt;/a&gt;.
+This feature is useful when your test suite has an ordering
+dependency–that is, the suite only fails when the tests are run
+in a specific order. &lt;code&gt;--bisect&lt;/code&gt; will repeatedly run smaller and
+smaller subsets of your suite in order to narrow it down to the
+minimal set of specs needed to reproduce the failures.&lt;/p&gt;
+
+&lt;p&gt;Since 3.3, this feature has been implemented by shelling out to
+the &lt;code&gt;rspec&lt;/code&gt; command to run each subset. While simple and effective,
+we realized this approach was also quite inefficient. Each time the
+&lt;code&gt;rspec&lt;/code&gt; command runs, it must boot RSpec and your application
+environment (which may include Rails and many other gems) from scratch.
+The cost of this can vary considerably from a couple hundred milliseconds
+to 30+ seconds on a large Rails app. In extreme cases, the runtime of
+&lt;code&gt;--bisect&lt;/code&gt; can be dominated by the time it takes to boot your application
+environment over and over and over.&lt;/p&gt;
+
+&lt;p&gt;In RSpec 3.8, we've improved bisect's performance by using forking
+on platforms that support it rather than shelling out. That way, we
+can boot your application environment &lt;em&gt;once&lt;/em&gt;, and then fork a subprocess
+in which to run each subset of the test suite, avoiding the need to boot
+your application many times.&lt;/p&gt;
+
+&lt;p&gt;The actual improvement you'll see in practice will vary widely, but
+in our &lt;a href="https://github.com/rspec/rspec-core/pull/2511"&gt;limited testing&lt;/a&gt;
+it improved the runtime of &lt;code&gt;--bisect&lt;/code&gt; by 33% in one case and an
+order-of-magnitude (108.9 seconds down to 11.7 seconds) in another.&lt;/p&gt;
+
+&lt;p&gt;If you're looking to maximize the benefit of this change, you may
+want to pass some additional &lt;code&gt;--require&lt;/code&gt; options when running a
+bisection in order to pre-load as much of your application environment
+as possible.&lt;/p&gt;
+
+&lt;h3 id="core-support-the-xdg-base-directory-spec-for-configuration"&gt;Core: Support the XDG base directory spec for configuration&lt;/h3&gt;
+
+&lt;p&gt;RSpec, like many command line tools, supports the use of options
+files, which can live at &lt;code&gt;.rspec&lt;/code&gt; (for team project options)
+&lt;code&gt;~/.rspec&lt;/code&gt; (for global personal options) or at &lt;code&gt;.rspec-local&lt;/code&gt;
+(for personal project options – this file should not be under
+source control). In RSpec 3.8, we've expanded this feature to
+support the &lt;a href="https://specifications.freedesktop.org/basedir-spec/latest/"&gt;XDG Base Directory
+Specification&lt;/a&gt;,
+which defines a standard way for tools to locate the global personal
+options file. This gives users complete control over where this
+file is located rather than forcing it to live in their home directory.&lt;/p&gt;
+
+&lt;p&gt;To use this feature, simply set the &lt;code&gt;$XDG_CONFIG_HOME&lt;/code&gt; environment
+variable and put your RSpec options at &lt;code&gt;$XDG_CONFIG_HOME/rspec/options&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For more info, &lt;a href="https://specifications.freedesktop.org/basedir-spec/latest/"&gt;read the spec&lt;/a&gt;
+or &lt;a href="https://github.com/rspec/rspec-core/pull/2538"&gt;check out the pull
+request&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Thanks to Magnus Bergmark for implementing this feature!&lt;/p&gt;
+
+&lt;h3 id="expectations-formatted-output-length-is-now-configurable"&gt;Expectations: Formatted output length is now configurable&lt;/h3&gt;
+
+&lt;p&gt;When setting expectations on large objects their string representations can become
+rather unwieldy and can clutter the console output. In RSpec 3.6, we started
+truncating these objects to address this issue, but did not make it easily configurable.&lt;/p&gt;
+
+&lt;p&gt;In RSpec 3.8, you can now configure it:&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;RSpec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;configure&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;expect_with&lt;/span&gt; &lt;span class="ss"&gt;:rspec&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;expectations&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="n"&gt;expectations&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;max_formatted_output_length&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can also disable the truncation entirely by setting the config option to &lt;code&gt;nil&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id="rails--havehttpstatus-matcher-upgraded-to-support-rails-52"&gt;Rails:  &lt;code&gt;have_http_status&lt;/code&gt; matcher upgraded to support Rails 5.2&lt;/h3&gt;
+
+&lt;p&gt;A change in Rails 5.2 caused RSpec's &lt;code&gt;have_http_status&lt;/code&gt; matcher to issue deprecation
+warnings. In RSpec 3.8, these warnings have been removed.&lt;/p&gt;
+
+&lt;h3 id="rails-view-specs-stubtemplate-performance-improved"&gt;Rails: View specs &lt;code&gt;stub_template&lt;/code&gt; performance improved.&lt;/h3&gt;
+
+&lt;p&gt;Thanks to Simon Coffey for implementing caching for &lt;code&gt;stub_template&lt;/code&gt;
+that prevents unnecessary recreation of templates. This improves performance
+by reducing the amount of allocation and setup performed.&lt;/p&gt;
+
+&lt;h3 id="rails-railshelperrb-improvements"&gt;Rails: &lt;code&gt;rails_helper.rb&lt;/code&gt; improvements&lt;/h3&gt;
+
+&lt;p&gt;Thank you to Koichi ITO and Alessandro Rodi for improving our generated
+&lt;code&gt;rails_helper.rb&lt;/code&gt; with improved messages when migrations are pending,
+and bringing us in line with Rails standards.&lt;/p&gt;
+
+&lt;h2 id="stats"&gt;Stats:&lt;/h2&gt;
+
+&lt;h3 id="combined"&gt;Combined:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 369&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 98&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;52 contributors&lt;/strong&gt;: Ace Dimasuhid, Alessandro Rodi, Alexander
+Panasyuk, Alyssa Ross, Andrew, Andrew Vit, Benoit Tigeot, Brad Charna,
+Brian Kephart, Christophe Bliard, Craig J. Bass, Daniel Colson, Douglas
+Lovell, Eric Hayes, Garett Arrowood, Gary Bernhardt, Gustav Munkby,
+James Crisp, Joel Taylor, Jon Rowe, Kenichi Kamiya, Koichi ITO, Lairan,
+Laura Paakkinen, Laurent Cobos, Magnus Bergmark, Matt Brictson, Maxim
+Krizhanovsky, Myron Marston, Nikola Đuza, Oleg Pudeyev, Olivier Lacan,
+Olle Jonsson, Pablo Brasero, Paul McMahon, Regan Chan, Sam Phippen,
+Sergiy Yarinovskiy, Shane Cavanaugh, Shia, Simon Coffey, Sorah Fukumori,
+Systho, Szijjártó-Nagy Misu, Tom Chen, Xavier Shay, Yuji Nakayama,
+arjan0307, joker1007, lsarni, n.epifanov, pavel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-core"&gt;rspec-core:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 94&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 24&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;17 contributors&lt;/strong&gt;: Alyssa Ross, Andrew Vit, Benoit Tigeot, Garett
+Arrowood, Gary Bernhardt, Jon Rowe, Kenichi Kamiya, Koichi ITO, Magnus
+Bergmark, Myron Marston, Oleg Pudeyev, Olle Jonsson, Sam Phippen, Sorah
+Fukumori, Systho, Xavier Shay, arjan0307&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations"&gt;rspec-expectations:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 52&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 15&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;13 contributors&lt;/strong&gt;: Ace Dimasuhid, Alyssa Ross, Benoit Tigeot, James
+Crisp, Jon Rowe, Kenichi Kamiya, Myron Marston, Pablo Brasero, Sam
+Phippen, Xavier Shay, Yuji Nakayama, joker1007, n.epifanov&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks"&gt;rspec-mocks:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 47&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 16&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;13 contributors&lt;/strong&gt;: Alexander Panasyuk, Alyssa Ross, Andrew, Benoit
+Tigeot, James Crisp, Jon Rowe, Kenichi Kamiya, Maxim Krizhanovsky, Myron
+Marston, Olle Jonsson, Sam Phippen, Sergiy Yarinovskiy, Xavier Shay&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails"&gt;rspec-rails:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 132&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 27&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;29 contributors&lt;/strong&gt;: Alessandro Rodi, Benoit Tigeot, Brad Charna,
+Brian Kephart, Christophe Bliard, Daniel Colson, Douglas Lovell, Eric
+Hayes, Joel Taylor, Jon Rowe, Kenichi Kamiya, Koichi ITO, Lairan, Laura
+Paakkinen, Laurent Cobos, Matt Brictson, Myron Marston, Nikola Đuza,
+Olivier Lacan, Paul McMahon, Regan Chan, Sam Phippen, Shane Cavanaugh,
+Shia, Simon Coffey, Szijjártó-Nagy Misu, Tom Chen, lsarni, pavel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support"&gt;rspec-support:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 44&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 16&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;10 contributors&lt;/strong&gt;: Alyssa Ross, Benoit Tigeot, Craig J. Bass, Gustav
+Munkby, James Crisp, Jon Rowe, Kenichi Kamiya, Myron Marston, Sam
+Phippen, Xavier Shay&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="docs"&gt;Docs&lt;/h2&gt;
+
+&lt;h3 id="api-docs"&gt;API Docs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.8/rspec-core/"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.8/rspec-expectations/"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.8/rspec-mocks/"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.8/rspec-rails/"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="cucumber-features"&gt;Cucumber Features&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-core"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-expectations"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-mocks"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-rails"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="release-notes"&gt;Release Notes&lt;/h2&gt;
+
+&lt;h3 id="rspec-core-380"&gt;rspec-core-3.8.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.7.1...v3.8.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve shell escaping used by &lt;code&gt;RSpec::Core::RakeTask&lt;/code&gt; and &lt;code&gt;--bisect&lt;/code&gt; so
+that it works on &lt;code&gt;Pathname&lt;/code&gt; objects. (Andrew Vit, #2479)&lt;/li&gt;
+  &lt;li&gt;Nicely format errors encountered while loading files specified
+by &lt;code&gt;--require&lt;/code&gt; option.  (Myron Marston, #2504)&lt;/li&gt;
+  &lt;li&gt;Significantly improve the performance of &lt;code&gt;--bisect&lt;/code&gt; on platforms that
+support forking by replacing the shell-based runner with one that uses
+forking so that RSpec and the application environment can be booted only
+once, instead of once per spec run. (Myron Marston, #2511)&lt;/li&gt;
+  &lt;li&gt;Provide a configuration API to pick which bisect runner is used for
+&lt;code&gt;--bisect&lt;/code&gt;. Pick a runner via &lt;code&gt;config.bisect_runner = :shell&lt;/code&gt; or
+&lt;code&gt;config.bisect_runner = :fork&lt;/code&gt; in a file loaded by a &lt;code&gt;--require&lt;/code&gt;
+option passed at the command line or set in &lt;code&gt;.rspec&lt;/code&gt;. (Myron Marston, #2511)&lt;/li&gt;
+  &lt;li&gt;Support the &lt;a href="https://specifications.freedesktop.org/basedir-spec/latest/"&gt;XDG Base Directory
+Specification&lt;/a&gt;
+for the global options file. &lt;code&gt;~/.rspec&lt;/code&gt; is still supported when no
+options file is found in &lt;code&gt;$XDG_CONFIG_HOME/rspec/options&lt;/code&gt; (Magnus Bergmark, #2538)&lt;/li&gt;
+  &lt;li&gt;Extract &lt;code&gt;RSpec.world.prepare_example_filtering&lt;/code&gt; that sets up the
+example filtering for custom RSpec runners. (Oleg Pudeyev, #2552)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Prevent an &lt;code&gt;ArgumentError&lt;/code&gt; when truncating backtraces with two identical
+backtraces. (Systho, #2515, Benoit Tigeot, #2539)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations-380"&gt;rspec-expectations-3.8.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.7.0...v3.8.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve failure message of &lt;code&gt;change(receiver, :message)&lt;/code&gt; by including the
+receiver as &lt;code&gt;SomeClass#some_message&lt;/code&gt;. (Tomohiro Hashidate, #1005)&lt;/li&gt;
+  &lt;li&gt;Improve &lt;code&gt;change&lt;/code&gt; matcher so that it can correctly detect changes in
+deeply nested mutable objects (such as arrays-of-hashes-of-arrays).
+The improved logic uses the before/after &lt;code&gt;hash&lt;/code&gt; value to see if the
+object has been mutated, rather than shallow duping the object.
+(Myron Marston, #1034)&lt;/li&gt;
+  &lt;li&gt;Improve &lt;code&gt;include&lt;/code&gt; matcher so that pseudo-hash objects (e.g. objects
+that decorate a hash using a &lt;code&gt;SimpleDelegator&lt;/code&gt; or similar) are treated
+as a hash, as long as they implement &lt;code&gt;to_hash&lt;/code&gt;. (Pablo Brasero, #1012)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code&gt;max_formatted_output_length=&lt;/code&gt; to configuration, allowing changing
+the length at which we truncate large output strings.
+(Sam Phippen #951, Benoit Tigeot #1056)&lt;/li&gt;
+  &lt;li&gt;Improve error message when passing a matcher that doesn't support block
+expectations to a block based &lt;code&gt;expect&lt;/code&gt;. (@nicktime, #1066)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks-380"&gt;rspec-mocks-3.8.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.7.0...v3.8.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Issue error when encountering invalid "counted" negative message expectations.
+(Sergiy Yarinovskiy, #1212)&lt;/li&gt;
+  &lt;li&gt;Ensure &lt;code&gt;allow_any_instance_of&lt;/code&gt; and &lt;code&gt;expect_any_instance_of&lt;/code&gt; can be temporarily
+supressed. (Jon Rowe, #1228)&lt;/li&gt;
+  &lt;li&gt;Ensure &lt;code&gt;expect_any_instance_of(double).to_not have_received(:some_method)&lt;/code&gt;
+fails gracefully (as its not supported) rather than issuing a &lt;code&gt;NoMethodError&lt;/code&gt;.
+(Maxim Krizhanovsky, #1231)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails-380"&gt;rspec-rails-3.8.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.7.2...v3.8.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improved message when migrations are pending in the default &lt;code&gt;rails_helper.rb&lt;/code&gt;
+(Koichi ITO, #1924)&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;have_http_status&lt;/code&gt; matcher now supports Rails 5.2 style response symbols
+(Douglas Lovell, #1951)&lt;/li&gt;
+  &lt;li&gt;Change generated Rails helper to match Rails standards for Rails.root
+(Alessandro Rodi, #1960)&lt;/li&gt;
+  &lt;li&gt;At support for asserting enqueued jobs have no wait period attached.
+(Brad Charna, #1977)&lt;/li&gt;
+  &lt;li&gt;Cache instances of &lt;code&gt;ActionView::Template&lt;/code&gt; used in &lt;code&gt;stub_template&lt;/code&gt; resulting
+in increased performance due to less allocations and setup. (Simon Coffey, #1979)&lt;/li&gt;
+  &lt;li&gt;Rails scaffold generator now respects longer namespaces (e.g. api/v1/&amp;lt;thing&amp;gt;).
+(Laura Paakkinen, #1958)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Escape quotation characters when producing method names for system spec
+screenshots. (Shane Cavanaugh, #1955)&lt;/li&gt;
+  &lt;li&gt;Use relative path for resolving fixtures when &lt;code&gt;fixture_path&lt;/code&gt; is not set.
+(Laurent Cobos, #1943)&lt;/li&gt;
+  &lt;li&gt;Allow custom template resolvers in view specs. (@ahorek, #1941)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support-380"&gt;rspec-support-3.8.0&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-support/compare/v3.7.1...v3.8.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Order hash keys before diffing to improve diff accuracy when using mocked calls.
+(James Crisp, #334)&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+  </entry>
+  <entry>
+    <title>RSpec 3.7 has been released!</title>
+    <link rel="alternate" href="http://rspec.info/blog/2017/10/rspec-3-7-has-been-released/"/>
+    <id>http://rspec.info/blog/2017/10/rspec-3-7-has-been-released/</id>
+    <published>2017-10-17T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Sam Phippen</name>
+    </author>
+    <content type="html">&lt;p&gt;RSpec 3.7 has just been released! Given our commitment to
+&lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt;, this should be an easy
+upgrade for anyone already using RSpec 3, but if we did introduce
+any regressions, please let us know, and we'll get a patch release
+out with a fix ASAP.&lt;/p&gt;
+
+&lt;p&gt;RSpec continues to be a community-driven project with contributors
+from all over the world. This release includes over 127 commits and 31
+merged pull requests from 27 different contributors!&lt;/p&gt;
+
+&lt;p&gt;It's worth noting: this is a smaller release than usual, as we wanted to get our
+Rails System Testing integration to you as quickly as possible.&lt;/p&gt;
+
+&lt;p&gt;Thank you to everyone who helped make this release happen!&lt;/p&gt;
+
+&lt;h2 id="notable-changes"&gt;Notable Changes&lt;/h2&gt;
+
+&lt;h3 id="rails-actiondispatchsystemtest-integration-system-specs"&gt;Rails: &lt;code&gt;ActionDispatch::SystemTest&lt;/code&gt; integration (System specs)&lt;/h3&gt;
+
+&lt;p&gt;In Rails 5.1, a new kind of test was added, called system test. These tests wrap
+capybara and Rails to allow for a full stack testing experience from frontend
+javascript all the way down to your database.&lt;/p&gt;
+
+&lt;p&gt;For a long time, RSpec has had &lt;a href="https://relishapp.com/rspec/rspec-rails/docs/feature-specs/feature-spec"&gt;Feature Specs&lt;/a&gt;
+which provide a smiliar integration. There are a few important differences
+between feature specs and system specs that are worth enumerating:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;If you use a javascript enabled driver (like selenium or poltergeist) with
+feature specs your tests run in a different &lt;strong&gt;process&lt;/strong&gt; than your Rails app.
+This means that your tests and your code under test cannot share a database
+transaction, and so you cannot use RSpec's built in mechanism to roll back
+database changes, instead requiring a gem like &lt;a href="https://github.com/DatabaseCleaner/database_cleaner"&gt;database
+cleaner&lt;/a&gt;. With system
+tests, the Rails team has done the hard work to ensure that this is not the
+case, and so you can safely use RSpec's mechanism, without needing an extra
+gem.&lt;/li&gt;
+  &lt;li&gt;RSpec's feature specs defaults to using the &lt;code&gt;Rack::Test&lt;/code&gt; capybara driver. If
+you want to use a javascript enabled test browser, it is on you to manage the
+capybara configuration. For a long time this has proven to be something that
+is tricky to get correct with more advanced integrations like selenium.
+System specs default to using selenium. The difficulty of the configuration
+is hidden by rails, which manipulates capybara and webdriver with chrome on
+your behalf.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;As such, we are recommending that users on Rails 5.1 prefer writing system specs
+over feature specs for full application integration testing. We'd like to give a
+special thanks to &lt;a href="https://twitter.com/eileencodes"&gt;Eileen Uchitelle&lt;/a&gt; who lead
+the implementation of this feature in Rails.&lt;/p&gt;
+
+&lt;h2 id="stats"&gt;Stats:&lt;/h2&gt;
+
+&lt;h3 id="combined"&gt;Combined:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 127&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 31&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;27 contributors&lt;/strong&gt;: Aaron Rosenberg, Alex Shi, Alyssa Ross, Britni Alexander, Dave Woodall, Devon Estes, Hisashi Kamezawa, Ian Ker-Seymer, James Adam, Jim Kingdon, Jon Rowe, Levi Robertson, Myron Marston, Pat Allan, RustyNail, Ryan Lue, Sam Phippen, Samuel Cochran, Sergei Trofimovich, Takeshi Arabiki, Thomas Hart, Tobias Pfeiffer, Wojciech Wnętrzak, Xavier Shay, Yuji Nakayama, Zhong Zheng, oh_rusty_nail&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-core"&gt;rspec-core:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 40&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 10&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;11 contributors&lt;/strong&gt;: Devon Estes, Ian Ker-Seymer, Jon Rowe, Levi Robertson, Myron Marston, Pat Allan, Sam Phippen, Takeshi Arabiki, Thomas Hart, Tobias Pfeiffer, Yuji Nakayama&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations"&gt;rspec-expectations:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 13&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 2&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;5 contributors&lt;/strong&gt;: Jim Kingdon, Myron Marston, Pat Allan, Sam Phippen, Yuji Nakayama&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks"&gt;rspec-mocks:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 14&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 2&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;6 contributors&lt;/strong&gt;: Aaron Rosenberg, Myron Marston, Pat Allan, Sam Phippen, Yuji Nakayama, Zhong Zheng&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails"&gt;rspec-rails:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 38&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 9&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;16 contributors&lt;/strong&gt;: Alex Shi, Alyssa Ross, Britni Alexander, Dave Woodall, Hisashi Kamezawa, James Adam, Jon Rowe, Myron Marston, RustyNail, Ryan Lue, Sam Phippen, Samuel Cochran, Wojciech Wnętrzak, Xavier Shay, Yuji Nakayama, oh_rusty_nail&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support"&gt;rspec-support:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 22&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 8&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;6 contributors&lt;/strong&gt;: Jon Rowe, Myron Marston, Pat Allan, Sam Phippen, Sergei Trofimovich, Yuji Nakayama&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="docs"&gt;Docs&lt;/h2&gt;
+
+&lt;h3 id="api-docs"&gt;API Docs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.7/rspec-core/"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.7/rspec-expectations/"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.7/rspec-mocks/"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.7/rspec-rails/"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="cucumber-features"&gt;Cucumber Features&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-core"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-expectations"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-mocks"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-rails"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="release-notes"&gt;Release notes:&lt;/h2&gt;
+
+&lt;h3 id="rspec-core-1"&gt;RSpec Core&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.6.0...v3.7.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add &lt;code&gt;-n&lt;/code&gt; alias for &lt;code&gt;--next-failure&lt;/code&gt;. (Ian Ker-Seymer, #2434)&lt;/li&gt;
+  &lt;li&gt;Improve compatibility with &lt;code&gt;--enable-frozen-string-literal&lt;/code&gt; option
+on Ruby 2.3+. (Pat Allan, #2425, #2427, #2437)&lt;/li&gt;
+  &lt;li&gt;Do not run &lt;code&gt;:context&lt;/code&gt; hooks for example groups that have been skipped.
+(Devon Estes, #2442)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code&gt;errors_outside_of_examples_count&lt;/code&gt; to the JSON formatter.
+(Takeshi Arabiki, #2448)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve compatibility with frozen string literal flag. (#2425, Pat Allan)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations-1"&gt;RSpec Expectations&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.6.0...v3.7.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve compatibility with &lt;code&gt;--enable-frozen-string-literal&lt;/code&gt; option
+on Ruby 2.3+. (Pat Allan, #997)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="rspec-mocks-1"&gt;RSpec Mocks&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.6.0...v3.7.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve compatibility with &lt;code&gt;--enable-frozen-string-literal&lt;/code&gt; option
+on Ruby 2.3+. (Pat Allan, #1165)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix &lt;code&gt;hash_including&lt;/code&gt; and &lt;code&gt;hash_excluding&lt;/code&gt; so that they work against
+subclasses of &lt;code&gt;Hash&lt;/code&gt;. (Aaron Rosenberg, #1167)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="rspec-rails-1"&gt;RSpec Rails&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.6.0...v3.7.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Prevent "template not rendered" log message from erroring in threaded
+environments. (Samuel Cochran, #1831)&lt;/li&gt;
+  &lt;li&gt;Correctly generate job name in error message. (Wojciech Wnętrzak, #1814)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Allow &lt;code&gt;be_a_new(...).with(...)&lt;/code&gt; matcher to accept matchers for
+attribute values. (Britni Alexander, #1811)&lt;/li&gt;
+  &lt;li&gt;Only configure RSpec Mocks if it is fully loaded. (James Adam, #1856)&lt;/li&gt;
+  &lt;li&gt;Integrate with &lt;code&gt;ActionDispatch::SystemTestCase&lt;/code&gt;. (Sam Phippen, #1813)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="rspec-support-1"&gt;RSpec Support&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-support/compare/v3.6.0...v3.7.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve compatibility with &lt;code&gt;--enable-frozen-string-literal&lt;/code&gt; option
+on Ruby 2.3+. (Pat Allan, #320)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code&gt;Support.class_of&lt;/code&gt; for extracting class of any object.
+(Yuji Nakayama, #325)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix recursive const support to not blow up when given buggy classes
+that raise odd errors from &lt;code&gt;#to_str&lt;/code&gt;. (Myron Marston, #317)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Effective Testing with RSpec 3 has been released!</title>
+    <link rel="alternate" href="http://rspec.info/blog/2017/09/effective-testing-with-rspec-3-released/"/>
+    <id>http://rspec.info/blog/2017/09/effective-testing-with-rspec-3-released/</id>
+    <published>2017-09-11T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Myron Marston</name>
+    </author>
+    <content type="html">&lt;p&gt;As we &lt;a href="/blog/2017/02/now-in-beta-effective-testing-with-rspec-3/"&gt;announced back in February&lt;/a&gt;,
+Ian Dees and I have written a new book for the Pragmatic Bookshelf
+about RSpec, entitled &lt;em&gt;Effective Testing with RSpec 3: Build Ruby Apps with Confidence&lt;/em&gt;.
+We're happy to announce that the book is out of beta and is now shipping from
+&lt;a href="https://pragprog.com/book/rspec3/effective-testing-with-rspec-3"&gt;PragProg&lt;/a&gt; and
+&lt;a href="https://www.amazon.com/Effective-Testing-RSpec-Build-Confidence/dp/1680501984/"&gt;Amazon&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="The book has shipped!" title="Our book has shipped!" src="/images/blog/physical-book.jpg" /&gt;&lt;/p&gt;
+
+&lt;p&gt;We put a ton of work over the last three years into this project, distilling our
+combined 20 years of testing experience into a book that explains how to do
+TDD/BDD well using RSpec. We believe that anyone who wants to learn RSpec or
+that regularly uses RSpec will benefit from the book. The early reviews from
+our readers have been quite positive. Avdi Grimm, author of &lt;em&gt;Confident Ruby&lt;/em&gt; and
+&lt;em&gt;Exceptional Ruby&lt;/em&gt; and Head Chef of &lt;a href="https://www.rubytapas.com/"&gt;RubyTapas&lt;/a&gt;, has this
+to say about the book:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Ruby embraces the old Lisp idea that you should “build up a language” to address your problem,
+and RSpec carries this approach into the world of testing. But RSpec is a big toolbox, and in
+order to harness its full power you need a guide. This is that guide: the bridge you need to
+take you from writing tests, to expressing your design requirements in code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you want to learn more about the book, check out this video Ian put together about it:&lt;/p&gt;
+
+&lt;iframe class="centered youtube" width="560" height="315" src="https://www.youtube.com/embed/-EbelD3CxAI" frameborder="0" allowfullscreen=""&gt;&lt;/iframe&gt;
+
+&lt;p&gt;You can also
+&lt;a href="https://media.pragprog.com/titles/rspec3/intro.pdf"&gt;check&lt;/a&gt;
+&lt;a href="https://media.pragprog.com/titles/rspec3/writing.pdf"&gt;out&lt;/a&gt;
+&lt;a href="https://media.pragprog.com/titles/rspec3/testing.pdf"&gt;multiple&lt;/a&gt;
+&lt;a href="https://media.pragprog.com/titles/rspec3/origins.pdf"&gt;extracts&lt;/a&gt;
+from the book to get an idea of what it's like.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>RSpec 3.6 has been released!</title>
+    <link rel="alternate" href="http://rspec.info/blog/2017/05/rspec-3-6-has-been-released/"/>
+    <id>http://rspec.info/blog/2017/05/rspec-3-6-has-been-released/</id>
+    <published>2017-05-04T00:00:00Z</published>
+    <updated>2020-04-08T22:48:49+02:00</updated>
+    <author>
+      <name>Sam Phippen, Myron Marston, Jon Rowe</name>
+    </author>
+    <content type="html">&lt;p&gt;RSpec 3.6 has just been released! Given our commitment to
+&lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt;, this should be an easy
+upgrade for anyone already using RSpec 3, but if we did introduce
+any regressions, please let us know, and we'll get a patch release
+out with a fix ASAP.&lt;/p&gt;
+
+&lt;p&gt;RSpec continues to be a community-driven project with contributors
+from all over the world. This release includes over 450 commits and 120
+merged pull requests from 50 different contributors!&lt;/p&gt;
+
+&lt;p&gt;Thank you to everyone who helped make this release happen!&lt;/p&gt;
+
+&lt;h2 id="notable-changes"&gt;Notable Changes&lt;/h2&gt;
+
+&lt;h3 id="core-errors-outside-examples-now-handled-and-formatted-well"&gt;Core: Errors outside examples now handled and formatted well&lt;/h3&gt;
+
+&lt;p&gt;In previous versions of RSpec, we allowed errors encountered while loading spec
+files or running &lt;code&gt;:suite&lt;/code&gt; hooks to crash the ruby interpreter, giving you its
+default full-stacktrace output.  In RSpec 3.6, we now handle all errors that
+occur outside examples, and format them nicely including a filtered backtrace
+and a code snippet for the site of the error.  For example, an error in a
+&lt;code&gt;before(:suite)&lt;/code&gt; hook is now formatted like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Errors outside example execution" src="/images/blog/errors_outside_example.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to Jon Rowe for assisting with this feature.&lt;/p&gt;
+
+&lt;h3 id="core-output-coloring-is-set-automatically-if-rspec-is-outputting-to-a-tty"&gt;Core: Output coloring is set automatically if RSpec is outputting to a tty.&lt;/h3&gt;
+
+&lt;p&gt;In past versions of RSpec, you were required to specify &lt;code&gt;--color&lt;/code&gt; if you wanted
+output coloring, regardless of whether you were outputting to a terminal, a
+file, a CI system, or some other output location. Now, RSpec will automatically
+color output if it detects it is running in a TTY. You can still force coloring
+with &lt;code&gt;--color&lt;/code&gt;, or if you are running in a TTY and explicitly do not want color,
+you can specify &lt;code&gt;--no-color&lt;/code&gt; to disable this behavior.&lt;/p&gt;
+
+&lt;p&gt;We thank Josh Justice for adding this behavior to RSpec.&lt;/p&gt;
+
+&lt;h3 id="core-configfailifnoexamples"&gt;Core: &lt;code&gt;config.fail_if_no_examples&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;As it currently stands RSpec will exit with code &lt;code&gt;0&lt;/code&gt; indicating success if no
+examples are defined. This option allows you to configure RSpec to exit with
+code &lt;code&gt;1&lt;/code&gt; indicating failure. This is useful in CI environments, as it helps
+detect when you've misconfigured RSpec to look for specs in the wrong place or
+with the wrong pattern. When no specs are found and &lt;code&gt;config.fail_if_no_examples&lt;/code&gt;
+is set we consider this to be an error as opposed to passing the suite run.&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;RSpec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;configure&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;fail_if_no_examples&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A special thanks to Ewa Czechowska for getting this in to core.&lt;/p&gt;
+
+&lt;h3 id="expectations-improved-failure-messages-for-the-change-and-satisfy-matchers"&gt;Expectations: Improved failure messages for the &lt;code&gt;change&lt;/code&gt; and &lt;code&gt;satisfy&lt;/code&gt; matchers&lt;/h3&gt;
+
+&lt;p&gt;The &lt;code&gt;change&lt;/code&gt; and &lt;code&gt;satisfy&lt;/code&gt; matchers both accept a block. For the
+&lt;code&gt;change&lt;/code&gt; matcher, you use this to specify &lt;em&gt;what&lt;/em&gt; you expect to change.
+For the &lt;code&gt;satisfy&lt;/code&gt; matcher you use a block to specify your pass/fail
+criteria.  In either case, the failure message has always been pretty
+generic.  For example, consider these specs:&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;RSpec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;describe&lt;/span&gt; &lt;span class="s2"&gt;"`change` and `satisfy` matchers"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;example&lt;/span&gt; &lt;span class="s2"&gt;"`change` matcher"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+    &lt;span class="n"&gt;expect&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="p"&gt;}.&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;change&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="p"&gt;}.&lt;/span&gt;&lt;span class="nf"&gt;by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;and&lt;/span&gt; &lt;span class="n"&gt;change&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="p"&gt;}.&lt;/span&gt;&lt;span class="nf"&gt;by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;example&lt;/span&gt; &lt;span class="s2"&gt;"`satisfy` matcher"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;satisfy&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;odd?&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;and&lt;/span&gt; &lt;span class="n"&gt;satisfy&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;positive?&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Prior versions of RSpec would fail with messages like
+"expected result to have changed by 1, but was changed by 2"
+and "expected 2 to satisfy block".  In both cases, the failure
+message is accurate, but does not help you distinguish &lt;em&gt;which&lt;/em&gt;
+&lt;code&gt;change&lt;/code&gt; or &lt;code&gt;satisfy&lt;/code&gt; matcher failed.&lt;/p&gt;
+
+&lt;p&gt;Here's what the failure output looks like on RSpec 3.6:&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;Failures:
+
+  1) `change` and `satisfy` matchers `change` matcher
+     Failure/Error:
+       expect {
+         a += 1
+         b += 2
+       }.to change { a }.by(1)
+       .and change { b }.by(1)
+
+       expected `b` to have changed by 1, but was changed by 2
+     # ./spec/example_spec.rb:5:in `block (2 levels) in &amp;lt;top (required)&amp;gt;'
+
+  2) `change` and `satisfy` matchers `satisfy` matcher
+     Failure/Error:
+       expect(2).to satisfy { |x| x.odd? }
+               .and satisfy { |x| x.positive? }
+
+       expected 2 to satisfy expression `x.odd?`
+     # ./spec/example_spec.rb:13:in `block (2 levels) in &amp;lt;top (required)&amp;gt;'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Thanks to the great work of Yuji Nakayama, RSpec now uses
+&lt;a href="http://ruby-doc.org/stdlib-2.4.0/libdoc/ripper/rdoc/Ripper.html"&gt;Ripper&lt;/a&gt;
+to extract a snippet to include in the failure message. If we're not
+able to extract a simple, single-line snippet, we fall back to the older
+generic messages.&lt;/p&gt;
+
+&lt;h3 id="expectations-scoped-aliased-and-negated-matchers"&gt;Expectations: Scoped aliased and negated matchers&lt;/h3&gt;
+
+&lt;p&gt;In RSpec 3, we added &lt;code&gt;alias_matcher&lt;/code&gt;, allowing users to
+&lt;a href="http://rspec.info/blog/2014/01/new-in-rspec-3-composable-matchers/#matcher-aliases"&gt;alias matchers&lt;/a&gt;
+for better readability. In 3.1 we added the ability to define
+&lt;a href="http://rspec.info/blog/2014/09/rspec-3-1-has-been-released/#expectations-new-definenegatedmatcher-api"&gt;negated matchers&lt;/a&gt;
+with the &lt;code&gt;define_negated_matcher&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;Before RSpec 3.6 when you called either of these methods the newly defined
+matchers were always defined at the global scope. With this feature you are able
+to invoke either &lt;code&gt;alias_matcher&lt;/code&gt; or &lt;code&gt;define_negated_matcher&lt;/code&gt; in the scope of an
+example group (&lt;code&gt;describe&lt;/code&gt;, &lt;code&gt;context&lt;/code&gt;, etc). When doing so the newly defined
+matcher will only be available to examples in that example group and any nested
+groups:&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;RSpec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;describe&lt;/span&gt; &lt;span class="s1"&gt;'scoped matcher aliases'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="s1"&gt;'example group with a matcher alias'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;alias_matcher&lt;/span&gt; &lt;span class="ss"&gt;:be_a_string_starting_with&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:start_with&lt;/span&gt;
+
+    &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s1"&gt;'can use the matcher alias'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be_a_string_starting_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="s1"&gt;'example group without the matcher alias'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s1"&gt;'cannot use the matcher alias'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="c1"&gt;# fails because the matcher alias is not available&lt;/span&gt;
+      &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be_a_string_starting_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Thanks to Markus Reiter for contributing this feature.&lt;/p&gt;
+
+&lt;h3 id="mocks-withoutpartialdoubleverification"&gt;Mocks: &lt;code&gt;without_partial_double_verification&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;When we released RSpec 3.0 we added &lt;a href="http://rspec.info/blog/2014/05/notable-changes-in-rspec-3/#verifying-doubles"&gt;verifying doubles&lt;/a&gt;.
+Verifying doubles allow you to ensure that stubs and mocks that you create with
+RSpec correctly emulate the interfaces on the objects in your tests.
+&lt;code&gt;without_partial_double_verification&lt;/code&gt; allows you to turn off the verifying
+double behaviour for the duration of the execution of a block. For example:&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Widget&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;call&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;takes_an_arg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="no"&gt;RSpec&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;describe&lt;/span&gt; &lt;span class="no"&gt;Widget&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s1"&gt;'can be stub with a mismatched arg count'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;without_partial_double_verification&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Widget&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;
+      &lt;span class="n"&gt;allow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;receive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:call&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;and_return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;call&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Here, this test would fail if the &lt;code&gt;without_partial_double_verification&lt;/code&gt; call was
+not made, because we are stubbing the &lt;code&gt;call&lt;/code&gt; method on the &lt;code&gt;Widget&lt;/code&gt; object with
+an argument count that is different from the implementation. We added this feature
+specifically to address a problem with partial double verification when stubbing
+locals in views. Details can be found in &lt;a href="https://github.com/rspec/rspec-mocks/issues/1102"&gt;this issue&lt;/a&gt;
+and the rspec-rails issues linked from it.&lt;/p&gt;
+
+&lt;p&gt;A special thanks to Jon Rowe for adding this feature.&lt;/p&gt;
+
+&lt;h3 id="rails-support-for-rails-51"&gt;Rails: Support for Rails 5.1:&lt;/h3&gt;
+
+&lt;p&gt;RSpec 3.6.0 comes with full support for Rails 5.1. There are no major changes to
+the rails 5.1 API and so this upgrade should be fully smooth. Simply bumping to
+the latest version of RSpec will bring the support to your app with no other
+changes required on your part.&lt;/p&gt;
+
+&lt;p&gt;Rails &lt;a href="http://weblog.rubyonrails.org/2017/4/27/Rails-5-1-final/"&gt;system tests&lt;/a&gt; are not yet supported,
+but we plan to add support for them in the near future.&lt;/p&gt;
+
+&lt;h2 id="stats"&gt;Stats:&lt;/h2&gt;
+
+&lt;h3 id="combined"&gt;Combined:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 493&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 127&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;58 contributors&lt;/strong&gt;: Alessandro Berardi, Alex Coomans, Alex DeLaPena, Alyssa Ross, Andy Morris, Anthony Dmitriyev, Ben Pickles, Benjamin Quorning, Damian Simon Peter, David Grayson, Devon Estes, Dillon Welch, Eugene Kenny, Ewa Czechowska, Gaurish Sharma, Glauco Custódio, Hanumakanth, Hun Jae Lee, Ilya Lavrov, Isaac Betesh, John Meehan, Jon Jensen, Jon Moss, Jon Rowe, Josh Justice, Juanito Fatas, Jun Aruga, Kevin Glowacz, Koichi ITO, Krzysztof Zych, Luke Rollans, Luís Costa, Mark Campbell, Markus Reiter, Markus Schwed, Megan O'Neill, Mike Butsko, Mitsutaka Mimura, Myron Marston, Olle Jonsson, Phil Thompson, Sam Phippen, Samuel Giddins, Samuel Lourenço, Sasha Gerrand, Sophie Déziel, Travis Spangle, VTJamie, Wojciech Wnętrzak, Xavier Shay, Yuji Nakayama, ansonK, bootstraponline, gajewsky, matrinox, mrageh, proby, yui-knk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-core"&gt;rspec-core:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 201&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 59&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;25 contributors&lt;/strong&gt;: Alyssa Ross, Benjamin Quorning, David Grayson, Devon Estes, Eugene Kenny, Ewa Czechowska, Ilya Lavrov, Jon Jensen, Jon Rowe, Josh Justice, Juanito Fatas, Jun Aruga, Mark Campbell, Mitsutaka Mimura, Myron Marston, Phil Thompson, Sam Phippen, Samuel Lourenço, Travis Spangle, VTJamie, Xavier Shay, Yuji Nakayama, bootstraponline, matrinox, yui-knk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations"&gt;rspec-expectations:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 85&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 25&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;11 contributors&lt;/strong&gt;: Alex DeLaPena, Alyssa Ross, Gaurish Sharma, Jon Rowe, Koichi ITO, Markus Reiter, Myron Marston, Sam Phippen, Xavier Shay, Yuji Nakayama, gajewsky&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks"&gt;rspec-mocks:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 68&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 17&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;13 contributors&lt;/strong&gt;: Alessandro Berardi, Alex DeLaPena, Dillon Welch, Glauco Custódio, Jon Rowe, Luís Costa, Myron Marston, Olle Jonsson, Sam Phippen, Samuel Giddins, Yuji Nakayama, mrageh, proby&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails"&gt;rspec-rails:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 84&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 13&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;25 contributors&lt;/strong&gt;: Andy Morris, Anthony Dmitriyev, Ben Pickles, Damian Simon Peter, Hanumakanth, Hun Jae Lee, Isaac Betesh, John Meehan, Jon Moss, Jon Rowe, Josh Justice, Kevin Glowacz, Krzysztof Zych, Luke Rollans, Markus Schwed, Megan O'Neill, Mike Butsko, Myron Marston, Sam Phippen, Sasha Gerrand, Sophie Déziel, Wojciech Wnętrzak, Xavier Shay, Yuji Nakayama, yui-knk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support"&gt;rspec-support:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Total Commits&lt;/strong&gt;: 55&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Merged pull requests&lt;/strong&gt;: 13&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;7 contributors&lt;/strong&gt;: Alex Coomans, Jon Rowe, Myron Marston, Olle Jonsson, Sam Phippen, Yuji Nakayama, ansonK&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="docs"&gt;Docs&lt;/h2&gt;
+
+&lt;h3 id="api-docs"&gt;API Docs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.6/rspec-core/"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.6/rspec-expectations/"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.6/rspec-mocks/"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="/documentation/3.6/rspec-rails/"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="cucumber-features"&gt;Cucumber Features&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-core"&gt;rspec-core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-expectations"&gt;rspec-expectations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-mocks"&gt;rspec-mocks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://relishapp.com/rspec/rspec-rails"&gt;rspec-rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="release-notes"&gt;Release Notes&lt;/h2&gt;
+
+&lt;h3 id="rspec-core-combining-all-betas-of-rspec-360"&gt;RSpec Core (combining all betas of RSpec 3.6.0)&lt;/h3&gt;
+
+&lt;h4 id="section"&gt;3.6.0 / 2017-05-04&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.6.0.beta2...v3.6.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add seed information to JSON formatter output. (#2388, Mitsutaka Mimura)&lt;/li&gt;
+  &lt;li&gt;Include example id in the JSON formatter output. (#2369, Xavier Shay)&lt;/li&gt;
+  &lt;li&gt;Respect changes to &lt;code&gt;config.output_stream&lt;/code&gt; after formatters have been
+setup. (#2401, #2419, Ilya Lavrov)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Delay formatter loading until the last minute to allow accessing the reporter
+without triggering formatter setup. (Jon Rowe, #2243)&lt;/li&gt;
+  &lt;li&gt;Ensure context hook failures running before an example can access the
+reporter. (Jon Jensen, #2387)&lt;/li&gt;
+  &lt;li&gt;Multiple fixes to allow using the runner multiple times within the same
+process: &lt;code&gt;RSpec.clear_examples&lt;/code&gt; resets the formatter and no longer clears
+shared examples, and streams can be used across multiple runs rather than
+being closed after the first. (#2368, Xavier Shay)&lt;/li&gt;
+  &lt;li&gt;Prevent unexpected &lt;code&gt;example_group_finished&lt;/code&gt; notifications causing an error.
+(#2396, VTJamie)&lt;/li&gt;
+  &lt;li&gt;Fix bugs where &lt;code&gt;config.when_first_matching_example_defined&lt;/code&gt; hooks would fire
+multiple times in some cases. (Yuji Nakayama, #2400)&lt;/li&gt;
+  &lt;li&gt;Default &lt;code&gt;last_run_status&lt;/code&gt; to "unknown" when the &lt;code&gt;status&lt;/code&gt; field in the
+persistence file contains an unrecognized value. (#2360, matrinox)&lt;/li&gt;
+  &lt;li&gt;Prevent &lt;code&gt;let&lt;/code&gt; from defining an &lt;code&gt;initialize&lt;/code&gt; method. (#2414, Jon Rowe)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta2--2016-12-12"&gt;3.6.0.beta2 / 2016-12-12&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.6.0.beta1...v3.6.0.beta2"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Include count of errors occurring outside examples in default summaries.
+(#2351, Jon Rowe)&lt;/li&gt;
+  &lt;li&gt;Warn when including shared example groups recursively. (#2356, Jon Rowe)&lt;/li&gt;
+  &lt;li&gt;Improve failure snippet syntax highlighting with CodeRay to highlight
+RSpec "keywords" like &lt;code&gt;expect&lt;/code&gt;. (#2358, Myron Marston)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta1--2016-10-09"&gt;3.6.0.beta1 / 2016-10-09&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-core/compare/v3.5.4...v3.6.0.beta1"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Warn when duplicate shared examples definitions are loaded due to being
+defined in files matching the spec pattern (e.g. &lt;code&gt;_spec.rb&lt;/code&gt;) (#2278, Devon Estes)&lt;/li&gt;
+  &lt;li&gt;Improve metadata filtering so that it can match against any object
+that implements &lt;code&gt;===&lt;/code&gt; instead of treating regular expressions as
+special. (Myron Marston, #2294)&lt;/li&gt;
+  &lt;li&gt;Improve &lt;code&gt;rspec -v&lt;/code&gt; so that it prints out the versions of each part of
+RSpec to prevent confusion. (Myron Marston, #2304)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code&gt;config.fail_if_no_examples&lt;/code&gt; option which causes RSpec to fail if
+no examples are found. (Ewa Czechowska, #2302)&lt;/li&gt;
+  &lt;li&gt;Nicely format errors encountered while loading spec files.
+(Myron Marston, #2323)&lt;/li&gt;
+  &lt;li&gt;Improve the API for enabling and disabling color output (Josh
+Justice, #2321):
+    &lt;ul&gt;
+      &lt;li&gt;Automatically enable color if the output is a TTY, since color is
+nearly always desirable if the output can handle it.&lt;/li&gt;
+      &lt;li&gt;Introduce new CLI flag to force color on (&lt;code&gt;--force-color&lt;/code&gt;), even
+if the output is not a TTY. &lt;code&gt;--no-color&lt;/code&gt; continues to work as well.&lt;/li&gt;
+      &lt;li&gt;Introduce &lt;code&gt;config.color_mode&lt;/code&gt; for configuring the color from Ruby.
+&lt;code&gt;:automatic&lt;/code&gt; is the default and will produce color if the output is
+a TTY. &lt;code&gt;:on&lt;/code&gt; forces it on and &lt;code&gt;:off&lt;/code&gt; forces it off.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-expectations-combining-all-betas-of-rspec-360"&gt;RSpec Expectations (combining all betas of RSpec 3.6.0)&lt;/h3&gt;
+
+&lt;h4 id="section-1"&gt;3.6.0 / 2017-05-04&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.6.0.beta2...v3.6.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Treat NoMethodError as a failure for comparison matchers. (Jon Rowe, #972)&lt;/li&gt;
+  &lt;li&gt;Allow for scoped aliased and negated matchers–just call
+&lt;code&gt;alias_matcher&lt;/code&gt; or &lt;code&gt;define_negated_matcher&lt;/code&gt; from within an example
+group. (Markus Reiter, #974)&lt;/li&gt;
+  &lt;li&gt;Improve failure message of &lt;code&gt;change&lt;/code&gt; matcher with block and &lt;code&gt;satisfy&lt;/code&gt; matcher
+by including the block snippet instead of just describing it as &lt;code&gt;result&lt;/code&gt; or
+&lt;code&gt;block&lt;/code&gt; when Ripper is available. (Yuji Nakayama, #987)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix &lt;code&gt;yield_with_args&lt;/code&gt; and &lt;code&gt;yield_successive_args&lt;/code&gt; matchers so that
+they compare expected to actual args at the time the args are yielded
+instead of at the end, in case the method that is yielding mutates the
+arguments after yielding. (Alyssa Ross, #965)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta2--2016-12-12-1"&gt;3.6.0.beta2 / 2016-12-12&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.6.0.beta1...v3.6.0.beta2"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Using the exist matcher on &lt;code&gt;File&lt;/code&gt; no longer produces a deprecation warning.
+(Jon Rowe, #954)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta1--2016-10-09-1"&gt;3.6.0.beta1 / 2016-10-09&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-expectations/compare/v3.5.0...v3.6.0.beta1"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix &lt;code&gt;contain_exactly&lt;/code&gt; to work correctly with ranges. (Myron Marston, #940)&lt;/li&gt;
+  &lt;li&gt;Fix &lt;code&gt;change&lt;/code&gt; to work correctly with sets. (Marcin Gajewski, #939)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-mocks-combining-all-betas-of-rspec-360"&gt;RSpec Mocks (combining all betas of RSpec 3.6.0)&lt;/h3&gt;
+
+&lt;h4 id="section-2"&gt;3.6.0 / 2017-05-04&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.6.0.beta2...v3.6.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix "instance variable @color not initialized" warning when using
+rspec-mocks without rspec-core. (Myron Marston, #1142)&lt;/li&gt;
+  &lt;li&gt;Restore aliased module methods properly when stubbing on 1.8.7.
+(Samuel Giddins, #1144)&lt;/li&gt;
+  &lt;li&gt;Allow a message chain expectation to be constrained by argument(s).
+(Jon Rowe, #1156)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta2--2016-12-12-2"&gt;3.6.0.beta2 / 2016-12-12&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.6.0.beta1...v3.6.0.beta2"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add new &lt;code&gt;without_partial_double_verification { }&lt;/code&gt; API that lets you
+temporarily turn off partial double verification for an example.
+(Jon Rowe, #1104)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta1--2016-10-09-2"&gt;3.6.0.beta1 / 2016-10-09&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-mocks/compare/v3.5.0...v3.6.0.beta1"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Return the test double instance form &lt;code&gt;#freeze&lt;/code&gt; (Alessandro Berardi, #1109)&lt;/li&gt;
+  &lt;li&gt;Allow the special logic for stubbing &lt;code&gt;new&lt;/code&gt; to work when &lt;code&gt;&amp;lt;Class&amp;gt;.method&lt;/code&gt; has
+been redefined. (Proby, #1119)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-rails-combining-all-betas-of-rspec-360"&gt;RSpec Rails (combining all betas of RSpec 3.6.0)&lt;/h3&gt;
+
+&lt;h4 id="section-3"&gt;3.6.0 / 2017-05-04&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.6.0.beta2...v3.6.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add compatibility for Rails 5.1. (Sam Phippen, Yuichiro Kaneko, #1790)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fix scaffold generator so that it does not generate broken controller specs
+on Rails 3.x and 4.x. (Yuji Nakayama, #1710)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta2--2016-12-12-3"&gt;3.6.0.beta2 / 2016-12-12&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.6.0.beta1...v3.6.0.beta2"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve failure output of ActiveJob matchers by listing queued jobs.
+(Wojciech Wnętrzak, #1722)&lt;/li&gt;
+  &lt;li&gt;Load &lt;code&gt;spec_helper.rb&lt;/code&gt; earlier in &lt;code&gt;rails_helper.rb&lt;/code&gt; by default.
+(Kevin Glowacz, #1795)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta1--2016-10-09-3"&gt;3.6.0.beta1 / 2016-10-09&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-rails/compare/v3.5.2...v3.6.0.beta1"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add support for &lt;code&gt;rake notes&lt;/code&gt; in Rails &lt;code&gt;&amp;gt;= 5.1&lt;/code&gt;. (John Meehan, #1661)&lt;/li&gt;
+  &lt;li&gt;Remove &lt;code&gt;assigns&lt;/code&gt; and &lt;code&gt;assert_template&lt;/code&gt; from scaffold spec generators (Josh
+Justice, #1689)&lt;/li&gt;
+  &lt;li&gt;Add support for generating scaffolds for api app specs. (Krzysztof Zych, #1685)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id="rspec-support-combining-all-betas-of-rspec-360"&gt;RSpec Support (combining all betas of RSpec 3.6.0)&lt;/h3&gt;
+
+&lt;h4 id="section-4"&gt;3.6.0 / 2017-05-04&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-support/compare/v3.6.0.beta2...3.6.0"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Import &lt;code&gt;Source&lt;/code&gt; classes from rspec-core. (Yuji Nakayama, #315)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id="beta2--2016-12-12-4"&gt;3.6.0.beta2 / 2016-12-12&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-support/compare/v3.6.0.beta1...v3.6.0.beta2"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;No user-facing changes.&lt;/p&gt;
+
+&lt;h4 id="beta1--2016-10-09-4"&gt;3.6.0.beta1 / 2016-10-09&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://github.com/rspec/rspec-support/compare/v3.5.0...v3.6.0.beta1"&gt;Full Changelog&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bug Fixes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Prevent truncated formatted object output from mangling console codes. (#294, Anson Kelly)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>
